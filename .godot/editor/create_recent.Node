@@ -1,0 +1,6 @@
+Label
+Line2D
+CollisionShape2D
+MeshInstance2D
+TextureRect
+AudioStreamPlayer2D
