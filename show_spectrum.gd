@@ -56,7 +56,7 @@ func _draw() -> void:
 func _process(_delta: float) -> void:
 	# Create an empty array to store the calculated heights of each frequency band.
 	var data: Array[float] = []
-	
+	print(AudioServer.get_bus_effect_instance(1, 1))
 	# Previous frequency value used for frequency range calculation.
 	var prev_hz := 0.0
 
@@ -111,7 +111,7 @@ func _process(_delta: float) -> void:
 func _ready() -> void:
 	# Initialize the spectrum analyzer to fetch audio data.
 	spectrum = AudioServer.get_bus_effect_instance(1, 1)
-		
+	
 	# Resize the min and max value arrays to match the number of frequency bands.
 	min_values.resize(VU_COUNT)
 	max_values.resize(VU_COUNT)

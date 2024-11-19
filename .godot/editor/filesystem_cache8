@@ -1,7 +1,8 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1731339968
-default_bus_layout.tres::AudioBusLayout::4119602603348103342::1731337403::0::1::::<><>::
-Headstock.png::CompressedTexture2D::5746494336611387929::1731339968::1731339974::1::::<><>::
+::res://::1731416982
+default_bus_layout.tres::AudioBusLayout::4119602603348103342::1731407348::0::1::::<><>::
+guitar_tuner.tscn::PackedScene::7243569723246500755::1731407762::0::1::::<><>::uid://cn4v6mahehl18::::res://Headstock.png
+Headstock.png::CompressedTexture2D::5746494336611387929::1731339975::1731406412::1::::<><>::
 README.md::TextFile::-1::1731333500::0::1::::<><>::
-show_spectrum.gd::GDScript::-1::1731333500::0::1::::<>Node2D<>::
-show_spectrum.tscn::PackedScene::7559994868945812833::1731333561::0::1::::<><>::res://show_spectrum.gd
+show_spectrum.gd::GDScript::-1::1731407761::0::1::::<>Node2D<>::
+show_spectrum.tscn::PackedScene::7559994868945812833::1731407761::0::1::::<><>::res://show_spectrum.gd

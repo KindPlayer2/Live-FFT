@@ -9,44 +9,45 @@ position = Vector2(587, 388)
 scale = Vector2(0.15948, 0.171653)
 texture = ExtResource("1_0mgql")
 
-[node name="a" type="Label" parent="."]
-offset_left = 480.0
-offset_top = 306.0
-offset_right = 520.0
-offset_bottom = 329.0
+[node name="a" type="Button" parent="."]
+offset_left = 467.0
+offset_top = 303.0
+offset_right = 507.0
+offset_bottom = 334.0
 text = "A"
 
-[node name="e1" type="Label" parent="."]
-offset_left = 463.0
-offset_top = 388.0
-offset_right = 503.0
-offset_bottom = 411.0
+[node name="e1" type="Button" parent="."]
+offset_left = 448.0
+offset_top = 384.0
+offset_right = 488.0
+offset_bottom = 415.0
+keep_pressed_outside = true
 text = "E"
 
-[node name="d" type="Label" parent="."]
-offset_left = 490.0
-offset_top = 219.0
-offset_right = 530.0
-offset_bottom = 242.0
+[node name="d" type="Button" parent="."]
+offset_left = 473.0
+offset_top = 212.0
+offset_right = 513.0
+offset_bottom = 243.0
 text = "D"
 
-[node name="g" type="Label" parent="."]
-offset_left = 672.0
-offset_top = 216.0
-offset_right = 712.0
-offset_bottom = 239.0
+[node name="g" type="Button" parent="."]
+offset_left = 657.0
+offset_top = 214.0
+offset_right = 697.0
+offset_bottom = 245.0
 text = "G"
 
-[node name="b" type="Label" parent="."]
-offset_left = 681.0
-offset_top = 310.0
-offset_right = 721.0
+[node name="b" type="Button" parent="."]
+offset_left = 666.0
+offset_top = 302.0
+offset_right = 706.0
 offset_bottom = 333.0
 text = "B"
 
-[node name="e2" type="Label" parent="."]
-offset_left = 700.0
-offset_top = 388.0
-offset_right = 740.0
-offset_bottom = 411.0
+[node name="e2" type="Button" parent="."]
+offset_left = 685.0
+offset_top = 385.0
+offset_right = 725.0
+offset_bottom = 416.0
 text = "E"
