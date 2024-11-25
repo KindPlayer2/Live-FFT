@@ -20,6 +20,8 @@ var max_index: int = 0                             # Index of the bar with the h
 var DbLabel: Label  # Display the highest Db value.
 var FreqLabel: Label  # Display the frequency with the highest magnitude.
 var StringLabel: Label  # Display the detected guitar string.
+var RawFreqLabel: Label  # Display the raw (non-interpolated) frequency.
+var ParabolicDiffLabel: Label  # Display the difference between parabolic and raw frequency.
 
 # Guitar string frequencies (in Hz)
 const GUITAR_STRINGS: Dictionary = {
@@ -59,6 +61,50 @@ func _draw() -> void:
 		)
 
 func _process(_delta: float) -> void:
+	# Array to store magnitudes for each frequency range.
+	var spectrum_magnitudes: Array[float] = []
+	var spectrum_freqs: Array[float] = []
+	
+	# Sample the entire spectrum using the audio effect spectrum analyzer
+	var min_freq: float = 20.0  # Start from audible range
+	var freq_range_max: float = FREQ_MAX
+	var step: float = (freq_range_max - min_freq) / 100.0  # Sampling 100 points
+	
+	var max_raw_magnitude: float = 0.0
+	var raw_max_freq: float = 0.0
+	
+	# Sample spectrum and find raw max frequency
+	for i in range(100):
+		var freq: float = min_freq + i * step
+		var magnitude: float = spectrum.get_magnitude_for_frequency_range(freq, freq + step).length()
+		
+		spectrum_magnitudes.append(magnitude)
+		spectrum_freqs.append(freq + step / 2.0)
+		
+		# Find raw max frequency
+		if magnitude > max_raw_magnitude:
+			max_raw_magnitude = magnitude
+			raw_max_freq = freq + step / 2.0
+	
+	# Find max index for parabolic interpolation
+	var max_index_para: int = 0
+	for i in range(1, spectrum_magnitudes.size() - 1):
+		if spectrum_magnitudes[i] > spectrum_magnitudes[max_index_para]:
+			max_index_para = i
+	
+	# Parabolic interpolation
+	var alpha: float = spectrum_magnitudes[max_index_para - 1]
+	var beta: float = spectrum_magnitudes[max_index_para]
+	var gamma: float = spectrum_magnitudes[max_index_para + 1]
+	
+	var peak_offset: float = 0.5 * (alpha - gamma) / (alpha - 2 * beta + gamma)
+	var interpolated_freq: float = spectrum_freqs[max_index_para] + peak_offset * step
+	
+	# Ignore frequencies below the threshold
+	if interpolated_freq < MIN_FREQ_THRESHOLD:
+		interpolated_freq = MIN_FREQ_THRESHOLD
+		raw_max_freq = MIN_FREQ_THRESHOLD
+	
 	# Array to store heights for each frequency band.
 	var data: Array[float] = []
 	var prev_hz: float = 0.0
@@ -81,39 +127,28 @@ func _process(_delta: float) -> void:
 		if data[i] <= 0.0:
 			min_values[i] = lerp(min_values[i], 0.0, ANIMATION_SPEED)
 
-	# Find the peak Db value and frequency index using parabolic interpolation.
-	max_index = 0  # Reset max index
+	# Find the peak bar index for visualization
+	max_index = 0
 	for i in range(1, VU_COUNT - 1):
 		if data[i] > data[max_index]:
 			max_index = i
 
-	# Use parabolic interpolation to estimate the peak frequency.
-	var alpha: float = data[max_index - 1]
-	var beta: float = data[max_index]
-	var gamma: float = data[max_index + 1]
-	var peak_offset: float = 0.5 * (alpha - gamma) / (alpha - 2 * beta + gamma)
-	var max_freq: float = (max_index + peak_offset) * FREQ_MAX / VU_COUNT
-	
-	# Ignore frequencies below the threshold.
-	if max_freq < MIN_FREQ_THRESHOLD:
-		max_freq = MIN_FREQ_THRESHOLD
-	
-	var max_db: float = linear_to_db(beta)
-
-	# Update labels for Db and frequency.
-	DbLabel.text = "Db: " + str(max_db)
-	FreqLabel.text = "Max Frequency: " + str(max_freq) + " Hz"
-
-	# Detect the nearest guitar string, only for frequencies above the threshold.
+	# Detect the nearest guitar string
 	var closest_string: String = ""
 	var closest_diff: float = INF
-	if max_freq >= MIN_FREQ_THRESHOLD:
+	if interpolated_freq >= MIN_FREQ_THRESHOLD:
 		for string_name in GUITAR_STRINGS.keys():
 			var string_freq: float = GUITAR_STRINGS[string_name]
-			var diff: float = abs(max_freq - string_freq)
+			var diff: float = abs(interpolated_freq - string_freq)
 			if diff < closest_diff:
 				closest_diff = diff
 				closest_string = string_name
+
+	# Update labels
+	DbLabel.text = "Db: " + str(linear_to_db(max_raw_magnitude))
+	FreqLabel.text = "Parabolic Frequency: " + str(interpolated_freq) + " Hz"
+	RawFreqLabel.text = "Raw Frequency: " + str(raw_max_freq) + " Hz"
+	ParabolicDiffLabel.text = "Frequency Diff: " + str(abs(interpolated_freq - raw_max_freq)) + " Hz"
 	StringLabel.text = "String: " + closest_string
 
 	# Redraw the visualization.
@@ -133,3 +168,5 @@ func _ready() -> void:
 	DbLabel = $DbLabel
 	FreqLabel = $FreqLabel
 	StringLabel = $StringLabel
+	RawFreqLabel = $RawFreqLabel
+	ParabolicDiffLabel = $ParabolicDiffLabel
