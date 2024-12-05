@@ -1,7 +1,10 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1732572192
-default_bus_layout.tres::AudioBusLayout::4119602603348103342::1732572169::0::1::::<><>::
+::res://::1733399356
+171509-200.png::CompressedTexture2D::8249419177836613406::1732981713::1732981713::1::::<><>::
+default_bus_layout.tres::AudioBusLayout::4119602603348103342::1732991762::0::1::::<><>::
 README.md::TextFile::-1::1732572152::0::1::::<><>::
-show_spectrum.gd::GDScript::-1::1732572169::0::1::::<>Node2D<>::
-show_spectrum.tscn::PackedScene::7559994868945812833::1732572169::0::1::::<><>::res://show_spectrum.gd
+show_spectrum.gd::GDScript::-1::1732573281::0::1::::<>Node2D<>::
+show_spectrum.tscn::PackedScene::7559994868945812833::1732993017::0::1::::<><>::res://show_spectrum.gd
+tuner.gd::GDScript::-1::1732993017::0::1::::<>Node2D<>::
+Tuner.tscn::PackedScene::2948919859757960303::1732993017::0::1::::<><>::res://tuner.gd<>uid://dpscy1jboajby::::res://171509-200.png
 Untitled Diagram.drawio.png::CompressedTexture2D::8624295177984584592::1732572169::1732572193::1::::<><>::
